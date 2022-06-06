@@ -149,10 +149,6 @@ header{
       font-size: 55%;
     }
   
-    header .fa-bars{
-      display: block;
-    }
-  
     header .navbar{
       position: fixed;
       top:-100rem; left:0;
@@ -176,7 +172,7 @@ header{
   
     header .navbar ul li a{
       font-size: 3rem;
-      display: block;
+    
     }
   
     header .nav-toggle{

@@ -49,6 +49,20 @@ $rows = $stmt->fetchAll();
    
     
     <title>My tutor</title>
+
+
+    <script>
+    
+    function w3_open() {
+    document.getElementById("mySidebar").style.width = "100%";
+    document.getElementById("mySidebar").style.display = "block";
+}
+
+function w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+}
+</script>
+
 </head>
 
 
@@ -67,12 +81,26 @@ $rows = $stmt->fetchAll();
         <li><a href="#course">Subscription</a></li>
         <li><a href="#review">Profile</a></li>
         <li> <a href="login.php">Log Out</a></li>
+        <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="myFunction()">&#9776;</a>
     </ul>
 </nav>
 
+<div class="w3-sidebar w3-bar-block" style="display:none" id="mySidebar">
+        <button onclick="w3_close()" class="w3-bar-item w3-button w3-large">Close &times;</button>
+        <a href="index.php" class="w3-bar-item w3-button">Courses</a>
+        <a href="tutors.php" class="w3-bar-item w3-button">Tutors</a>
+        <a href="#" class="w3-bar-item w3-button">Subscription</a>
+        <a href="#" class="w3-bar-item w3-button">Profile</a>
+        <a href="#" class="w3-bar-item w3-button">Logout</a>
+    </div>
+
+    <div class="w3-purple">
+        <button class="w3-button w3-purple w3-xlarge" onclick="w3_open()">☰</button>
+    </div>
+    
 <div class="fas fa-bars"></div>
 
-  
+
 </header>
 
 <section class="home" id="home">
