@@ -5,56 +5,44 @@ include_once("dbconnect.php");
 
     if (isset($_POST['submit'])) {
 
+           
         if (!(isset($_POST["name"]) || isset($_POST["email"]) || isset($_POST["phone"]) || isset($_POST["password"]) || isset($_POST["address"]))) {
             echo "<script> alert('Please fill in all required information')</script>";
             echo "<script> window.location.replace('register.php')</script>";
         } else {
-            if (file_exists($_FILES["fileToUpload"]["tmp_name"]) || is_uploaded_file($_FILES["fileToUpload"]["tmp_name"])) {
+           
                 
                 $name = $_POST["name"];
+
                 $address = $_POST["address"];
                 $password = $_POST["password"];
                 $email = $_POST["email"];
                 $phone = $_POST["phone"];
 
-                echo  "$name, $address, $password, $email,$phone";
+        
 
                 $sqlregister = "INSERT INTO `tbl_users`( `user_name`, `user_address`, `user_password`, `user_email`, `user_phone`) VALUES('$name', '$address', '$password', '$email', '$phone')";
                 try {
                     $conn->exec($sqlregister);
-                    uploadImage($icno);
-                    echo "<script>alert('Registration successful')</script>";
-                    echo "<script>window.location.replace('login.html')</script>";
+                    if (file_exists($_FILES["fileToUpload"]["tmp_name"]) || is_uploaded_file($_FILES["fileToUpload"]["tmp_name"])) {
+                        $last_id = $conn->lastInsertId();
+                        uploadImage($last_id);
+                       echo "<script>alert('Registration successful')</script>";
+                    echo "<script>window.location.replace('login.php')</script>";}
                 } catch (PDOException $e) {
                     echo "<script>alert('Registration failed')</script>";
                     echo "<script>window.location.replace('register.php')</script>";
                 }
-            } else {
-                
-                $name = $_POST["name"];
-                $address = $_POST["address"];
-                $citizenship = $_POST["password"];
-                $email = $_POST["email"];
-                $phone = $_POST["phone"];
-                $sqlregister = "INSERT INTO `tbl_users`( `name`, `address`, `password`, `email`, `phone`) VALUES( '$name', '$address', '$password', '$email', '$phone')";
-                try {
-                    $conn->exec($sqlregister);
-                    echo "<script>alert('Registration successful')</script>";
-                    echo "<script>window.location.replace('login.html')</script>";
-                } catch (PDOException $e) {
-                    echo "<script>alert('Registration failed')</script>";
-                    echo "<script>window.location.replace('register.php')</script>";
-                }
-               
+            } 
             }
-        }
-    }
+        
+        
+    
 
-
-function uploadImage($email)
+function uploadImage($filename)
 {
-    $target_dir = "web_mytutor/images/profile/";
-    $target_file = $target_dir . $email . ".png";
+    $target_dir = "../images/profile/";
+    $target_file = $target_dir . $filename . ".jpg";
     move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
 }
 ?>
@@ -66,9 +54,12 @@ function uploadImage($email)
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
+    <title>User Register</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <script src="../js/login.js" defer></script>
+    <script src="../js/script.js" defer></script>    <!-- access -->
+
+
+  
 </head>
 
 
@@ -76,10 +67,12 @@ function uploadImage($email)
     <header class="w3-header w3-blue w3-center w3-padding-32">
         <h3>My Tutor </h3>
         <p>Register Page</p>
+      
+
     </header>
 
     <div class="w3-bar">
-        <a href="login.html" class="w3-bar-item w3-button w3-right">Back</a>
+        <a href="login.php" class="w3-bar-item w3-button w3-right">Back</a>
     </div>
 
 
@@ -90,12 +83,11 @@ function uploadImage($email)
             </div>
 
             <div class="w3-container w3-center">
-                <img class="imgselection" src="../images/profile/2.jpg" style="width:50%"><br>
+                <img class="w3-image w3-margin" src="../images/profile/2.jpg" style="width:50%"><br>
                 <div class="w3-tag w3-blue">  <p> Upload Profile Image</p>  </div>
                 <p> </p>
                         <input type="file" onchange="previewFile()" name="fileToUpload" id="fileToUpload"><br>
                      
-                  
                        
             </div>
             <hr>
