@@ -3,9 +3,15 @@ include_once("dbconnect.php");
 // should only let us receive the data and not change its state. Hence it is only used to view something and not to change it.
 // get method is appended to the URL. Get request is better for the data which does not need to be secure
 
-     
-    
+if (isset($_GET['submit'])){        
+    $search = $_GET['search'];
+
+$sqlcourses = "SELECT * FROM tbl_subjects WHERE subject_name LIKE '%$search%'";
+    }
+
+ else {
 $sqlcourses = "SELECT * FROM tbl_subjects";
+}
 
 $results_per_page = 10; //maximum 20 product per page
  //determines the page number the user is currently visiting. In case if it is not present, by default it is set page number to 1.
@@ -116,6 +122,21 @@ function w3_close() {
 </div>
 
 
+<div class="w3-card w3-container w3-padding w3-margin w3-round w3-white">
+        <h3>Subject Search</h3>
+        
+        <form>
+            <div class="w3-row">
+                <div class="w3-half" style="padding-right:4px">
+                    <p><input class="w3-input w3-block w3-round w3-border" type="search" name="search" placeholder="Enter search term" /></p>
+                </div>
+                <button class="w3-button w3-pink w3-round" type="submit" name="submit" value="search">search</button>
+
+            </div>
+        </form>
+</div>
+
+
 
 <div class = "display-style-btns">
                 <button type = "button" id = "grid-active-btn">
@@ -125,6 +146,12 @@ function w3_close() {
                     <i class = "fas fa-list-ul"></i>
                 </button>
             </div>
+
+
+           
+
+
+    
 
 <div class="w3-grid-template">
         <?php
@@ -147,9 +174,9 @@ function w3_close() {
   <div class = 'item'>
 
   <div class = 'item-img w3-border-right'>
-  <img class='w3-image' src=../assets/courses/$subid.png" .
+  <a href='subjectdetails.php?subid=$subid' style='text-decoration: none;'> 
+   <img class='w3-image' src=../assets/courses/$subid.png" .
   " style='width:100%;height:250px'></a><hr>
-
      <div class = 'icon-list'>
           <button type = 'button'>
            <i class = 'fas fa-sync-alt'></i>
@@ -165,7 +192,14 @@ function w3_close() {
       </div>
       </div>
 
- 
+     
+    
+
+     
+
+   
+
+      
 
 <div class = 'item-detail'>
 <div class = 'item-name'>$subname</a> </div>
@@ -184,8 +218,11 @@ function w3_close() {
 
 
  </div>
-</div>
-  ";
+</div>";
+
+
+
+
 
 
         }
@@ -233,6 +270,8 @@ function w3_close() {
 
     <script src = "../js/grid.js"></script>
     
+
+ 
 </body>
 
 
